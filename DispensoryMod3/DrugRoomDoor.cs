@@ -5,6 +5,7 @@ using System.Text;
 using RimWorld;
 using Verse;
 using UnityEngine;
+using Verse.AI;
 
 namespace DispensaryMod
 {
@@ -19,15 +20,27 @@ namespace DispensaryMod
 
         private CompPowerTrader cPower;
 
+        private DrugDoorSettings drugDoorSettings;
+
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
             cPower = base.GetComp<CompPowerTrader>();
         }
 
+        public Building_DrugRoomDoor()
+        {
+            drugDoorSettings = new DrugDoorSettings(); 
+        }
+
         private Room getIndoorRoom(IntVec3 Pos)
         {
             if (!Pos.UsesOutdoorTemperature(this.Map)) return Pos.GetRoom(this.Map); else return null;
+        }
+
+        public DrugDoorSettings GetDrugPolicySettings()
+        {
+            return drugDoorSettings;
         }
 
         private Room getDrugRoom()
@@ -70,8 +83,7 @@ namespace DispensaryMod
         public override bool PawnCanOpen(Pawn p)
         {
 
-            Log.Message(string.Format("Pawn {0} is trying to access drug room", p.Name));
-
+            //Log.Message(string.Format("Pawn {0} is trying to access drug room", p.Name));
 
             if (!allowOpen(p))
             {
@@ -80,48 +92,18 @@ namespace DispensaryMod
             return base.PawnCanOpen(p);
         }
 
-        //private IEnumerable<JobDef> getAllowedJobs()
-        //{
-        //    yield return JobDefOf.HaulToCell;
-        //    yield return JobDefOf.HaulToContainer;
-        //    yield return JobDefOf.TendPatient;
-        //    yield return JobDefOf.Clean;
-        //    yield return JobDefOf.DoBill;
-        //    yield return JobDefOf.Clean;
-        //    yield return JobDefOf.Deconstruct;
-        //    yield return JobDefOf.BeatFire;
-        //    yield return JobDefOf.FixBrokenDownBuilding;
-        //    yield return JobDefOf.Repair;
-        //    yield return JobDefOf.Rescue;
-        //    yield return JobDefOf.Uninstall;
-        //}
-
-        private IEnumerable<JobDef> getBlockedJobs()
-        {
-            yield return JobDefOf.Ingest;
-            yield return JobDefOf.GotoWander;
-            yield return JobDefOf.GotoAndBeSociallyActive;
-        }
-
         private bool allowOpen(Pawn p)
         {
             Room drugRoom = getDrugRoom();
+
+            if (!this.powerComp.PowerOn) return true;
 
             if (drugRoom != null)
             {
                 if (p.GetRoom() == drugRoom) return true;
                 if (p.IsColonist)
                 {
-                    if (p.CurJob == null) {
-                        Log.Message(String.Format("Pawn {0} has no job while accesing drug room", p.Name));
-                        //p.needs.drugsDesire.CurLevelPercentage
-                        //p.jobs.curDriver.
-
-                        return true; }
-                    if (!cPower.PowerOn) return true;
-                    Log.Message(String.Format("Pawn {0} is trying to access drug room with job {1}", p.Name, p.CurJobDef.defName));
-                    if (getBlockedJobs().Contains<JobDef>(p.CurJob.def)) return false;
-                    return true;
+                    return drugDoorSettings.PolicyAllowed(p.drugs.CurrentPolicy);
                 }
                 return false;
             }
