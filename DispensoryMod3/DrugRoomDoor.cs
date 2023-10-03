@@ -12,7 +12,6 @@ namespace DispensaryMod
     [StaticConstructorOnStartup]
     class Building_DrugRoomDoor : Building_Door
     {
-
         //private static Texture2D ToggleIcon = ContentFinder<Texture2D>.Get("UI/Commands/HideZone");
         private static Texture2D ToggleOpen = ContentFinder<Texture2D>.Get("UI/Commands/Halt");
 
@@ -56,7 +55,7 @@ namespace DispensaryMod
             this.Map.reachability.ClearCacheFor(p);
 
 
-            Log.Message($"Pawn {p.Name} with policy {p.drugs.CurrentPolicy.label} blocked by drug door");
+            //Log.Message($"Pawn {p.Name} with policy {p.drugs.CurrentPolicy.label} blocked by drug door");
             return false;
 
         }
