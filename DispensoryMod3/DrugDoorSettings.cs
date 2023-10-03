@@ -20,7 +20,7 @@ namespace DispensaryMod
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref filter, "filter");
+            Scribe_Deep.Look(ref filter, "filter",new object[0]);
         }
 
         public void CopyFrom(DrugDoorSettings other)

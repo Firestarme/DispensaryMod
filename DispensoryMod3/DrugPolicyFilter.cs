@@ -22,7 +22,7 @@ namespace DispensaryMod
 
         public void ExposeData()
         {
-            throw new NotImplementedException();
+            Scribe_Collections.Look(ref allowedPolicyUId,"allowedPolicyUId");
         }
 
         public void SetAllow(DrugPolicy policy, bool allow)
