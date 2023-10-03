@@ -66,7 +66,7 @@ namespace DispensaryMod
         public ITab_DrugDoorPolicy()
         {
             size = WinSize;
-            labelKey = "drugDoorPolicy";
+            labelKey = "TabDrugDoorPolicy";
             tutorTag = "Policy";
 
         }
