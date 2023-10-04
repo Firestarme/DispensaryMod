@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>GetDrugFromDispensary</defName>
+    <driverClass>DispensaryMod.JobDriver_GetDrugsFromDispensary</driverClass>
+    <reportString>Getting TargetB from dispensary.</reportString>
+  </JobDef>
+  
+</Defs>
+ 

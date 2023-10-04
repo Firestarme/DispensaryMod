@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <packageId>firestarme.dispensarymod</packageId>
+  <name>Dispensary Mod</name>
+  <author>Firestarme</author>
+  <url></url>
+  <supportedVersions>
+    <li>1.4</li>
+  </supportedVersions>
+  <description>1.4.1.0 [04-10-23]
+
+Adds a Dispensary building that helps you control access to drugs.
+Also adds a door that can limit access with respect to drug policy.
+
+[Changelog]
+
+######################
+1.4.1.0 [04-10-23]  
+----------------------
+Inital Release (for rimworld 1.4)
+
+######################
+  </description>
+</ModMetaData>
