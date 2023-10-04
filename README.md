@@ -3,6 +3,7 @@
 Gives the player more control over drug use in game.
 
 Adds the objects:
+
     **Dispensary**
         Links to a stockpile to provide drugs to pawns that are authorised to use them via the vanilla drug policy system.
         This building fits on to a wall and blocks access to this protected stockpile.
