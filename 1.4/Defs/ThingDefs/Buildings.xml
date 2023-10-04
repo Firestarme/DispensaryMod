@@ -63,7 +63,8 @@
     </comps>
   </ThingDef>
 
-<ThingDef ParentName="BuildingBase" Name="DispMod_DoorBase" Abstract="True">
+<!-- 
+  <ThingDef ParentName="BuildingBase" Name="DispMod_DoorBase" Abstract="True">
     <blueprintClass>Blueprint_Door</blueprintClass>
     <category>Building</category>
     <altitudeLayer>DoorMoveable</altitudeLayer>
@@ -80,7 +81,7 @@
     <selectable>true</selectable>
     <tickerType>Normal</tickerType>
     <rotatable>false</rotatable>
-    <soundImpactDefault>BulletImpactMetal</soundImpactDefault>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <designationCategory>Structure</designationCategory>
     <holdsRoof>true</holdsRoof>
@@ -88,19 +89,20 @@
     <blockLight>true</blockLight>
     <drawerType>RealtimeOnly</drawerType>
     <building>
-      <soundDoorOpenPowered>DoorOpenPowered</soundDoorOpenPowered>
-      <soundDoorClosePowered>DoorClosePowered</soundDoorClosePowered>
-      <soundDoorOpenManual>DoorOpenManual</soundDoorOpenManual>
-      <soundDoorCloseManual>DoorCloseManual</soundDoorCloseManual>
+      <soundDoorOpenPowered>Door_OpenPowered</soundDoorOpenPowered>
+      <soundDoorClosePowered>Door_ClosePowered</soundDoorClosePowered>
+      <soundDoorOpenManual>Door_OpenManual</soundDoorOpenManual>
+      <soundDoorCloseManual>Door_CloseManual</soundDoorCloseManual>
       <ignoreNeedsPower>true</ignoreNeedsPower>
       <canPlaceOverWall>true</canPlaceOverWall>
     </building>
     <comps>
       <li Class="CompProperties_Forbiddable"/>
     </comps>
-  </ThingDef>
+  </ThingDef> 
+  -->
 
-  <ThingDef ParentName="DispMod_DoorBase">
+  <ThingDef ParentName="DoorBase">
     <defName>DrugRoomDoor</defName>
     <label>DrugRoom Door</label>
     <thingClass>DispensaryMod.Building_DrugRoomDoor</thingClass>
@@ -109,10 +111,9 @@
       <li>DispensaryMod.ITab_DrugDoorPolicy</li>
     </inspectorTabs>
     <statBases>
-      <WorkToMake>1100</WorkToMake>
+      <WorkToMake>1500</WorkToMake>
     </statBases>
     <passability>PassThroughOnly</passability>
-    <!-- <regionBarrier>true</regionBarrier> -->
     <graphicData>
       <texPath>Things/Building/Door/DrugDoor_Mover</texPath>
       <graphicClass>Graphic_Single</graphicClass>
