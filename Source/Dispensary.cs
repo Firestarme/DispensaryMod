@@ -72,18 +72,17 @@ namespace DispensaryMod
         public override void DrawExtraSelectionOverlays()
         {
             base.DrawExtraSelectionOverlays();
-            //new PlaceWorker_Dispensary().DrawGhost(this.def, this.Position, this.Rotation, Color.green);
 
             Zone_Stockpile selStockpile = this.stockpile(this.Map);
-            if (selStockpile != null) {GenDraw.DrawFieldEdges(selStockpile.Cells.ToList(), Color.green); }
-            
+            if (selStockpile != null) {GenDraw.DrawFieldEdges(selStockpile.Cells.ToList(), Color.green); }   
         }
     }
 
 
     public class PlaceWorker_Dispensary : PlaceWorker
     {
-        List<IntVec3> StockpileCells = new List<IntVec3>();
+        List<IntVec3> StockpileCells;
+        IntVec3? StockpileTgtCell;
 
         private IntVec3 getBackVec(IntVec3 center, Rot4 rot)
         {
@@ -92,35 +91,54 @@ namespace DispensaryMod
 
         public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostColor,Thing thing = null)
         {
-            GenDraw.DrawFieldEdges(StockpileCells, Color.green);
+            IntVec3 backVec = getBackVec(center, rot);
+
+            if (!StockpileTgtCell.HasValue)
+            {
+                drawFailGhost(backVec);
+                return;
+            }
+
+            if (StockpileTgtCell == backVec)
+            {
+                GenDraw.DrawFieldEdges(StockpileCells, Color.green);
+            }
+            else
+            {
+                drawFailGhost(backVec);
+            }
         }
 
-        private List<IntVec3> GetStockpileCells(Map map, IntVec3 BackVec)
+        private void drawFailGhost(IntVec3 Backvec)
         {
-            Zone_Stockpile sp = getStockpile(map, BackVec);
-            if (sp == null) { return new List<IntVec3> { BackVec }; }
-            else { return sp.cells; }
+            GenDraw.DrawFieldEdges(new List<IntVec3> { Backvec }, Color.red);
         }
 
-        private Zone_Stockpile getStockpile(Map map, IntVec3 BackVec)
+        private bool updateTargetStockpile(Map map, IntVec3 BackVec)
         {
+            //check if target cell is in a stockpile
             Zone zone = map.zoneManager.ZoneAt(BackVec);
-            if (zone is Zone_Stockpile) return (Zone_Stockpile)zone;
-            return null;
+            if (!(zone is Zone_Stockpile)) { return false; }
+
+            //dont update cells again if we are checking the same cell for a stockpile
+            if (BackVec == StockpileTgtCell) { return true; }
+
+            //update stockpile target cell
+            StockpileTgtCell = BackVec;
+
+            //update list of stockpile cells
+            StockpileCells = new List<IntVec3>(zone.Cells);
+            return true;
         }
 
         public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null,Thing thing = null)
         {
-            Zone_Stockpile Sp = getStockpile(map, getBackVec(loc, rot));
-
-            if (Sp == null)
+            if (!updateTargetStockpile(map, getBackVec(loc, rot)))
             {
-                StockpileCells = GetStockpileCells(map, getBackVec(loc, rot));
                 return "Must build with back against stockpile";
             }
             else
             {
-                StockpileCells.Clear();
                 return true;
             }
         }

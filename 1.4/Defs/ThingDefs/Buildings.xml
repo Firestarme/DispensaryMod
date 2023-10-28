@@ -52,7 +52,7 @@
     <castEdgeShadows>true</castEdgeShadows>
     <selectable>true</selectable>
     <rotatable>true</rotatable>
-    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+  
     <placeWorkers>
       <li>DispensaryMod.PlaceWorker_Dispensary</li>
     </placeWorkers>
