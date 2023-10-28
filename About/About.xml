@@ -7,7 +7,7 @@
   <supportedVersions>
     <li>1.4</li>
   </supportedVersions>
-  <description>1.4.1.0 [04-10-23]
+  <description>1.4.1.1 [28-10-23]
 
 Want to lift the mood of your colonists with a few smokeleaf joints? 
 Want to make your pawns wedding just that little bit wilder with a stock of yayo?
@@ -30,6 +30,12 @@ Unlocked with the reasearch 'Autodoors'
 [Changelog]
 
 ######################
+
+1.4.1.1 [28-10-23]  
+----------------------
+Fixed dispensory not blocking temperature when installed over wall.
+Fixed some unexpected behaviour when drawing dispensory placeworker ghosts.
+
 1.4.1.0 [04-10-23]  
 ----------------------
 Inital Release (for rimworld 1.4)
