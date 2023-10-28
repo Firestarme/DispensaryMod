@@ -268,3 +268,6 @@ Refrences*/
 *.bat
 /DispensoryMod3/Refrences2023/Assembly-CSharp-firstpass.dll
 /DispensoryMod3/Refrences2023/Assembly-CSharp.dll
+
+# Python Files
+*.py
