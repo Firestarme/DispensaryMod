@@ -44,6 +44,11 @@
     <size>(1,1)</size>
     <designationCategory>Misc</designationCategory>
     <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
     <castEdgeShadows>true</castEdgeShadows>
     <selectable>true</selectable>
     <rotatable>true</rotatable>
