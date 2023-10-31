@@ -39,28 +39,41 @@ namespace DispensaryMod
                 ThingDef drugDef = currentPolicy[i].drug;
                 if (pawn.drugs.AllowedToTakeScheduledNow(drugDef))
                 {
-                    Predicate<Thing> p = delegate (Thing x) { return this.findDispensary(x, drugDef, pawn); };
-                    Thing disp = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(DispensaryDef), PathEndMode.InteractionCell, TraverseParms.For(pawn));
-                    Thing drug = findDrugToDispense(disp, drugDef, pawn);
-                    if (((Building_Dispensary) disp).canDispenseDrugNow(pawn.Map, drug))
+                    Predicate<Thing> disp_validator = delegate (Thing x) { return isDispensaryValid(x,drugDef,pawn); };
+
+                    //Try and find the closest dispensary with the requested drug, return if none found
+                    Thing dispensary = GenClosest.ClosestThingReachable(
+                        pawn.Position,
+                        pawn.Map,
+                        ThingRequest.ForDef(DispensaryDef),
+                        PathEndMode.InteractionCell,
+                        TraverseParms.For(pawn),
+                        validator: disp_validator
+                        );      
+                    if (dispensary == null) return null;
+
+                    //Try and find drug in the specified dispensary, return if none found
+                    Thing drug = findDrugToDispense(dispensary, drugDef, pawn);
+                    if(drug == null) return null;
+
+                    if (((Building_Dispensary) dispensary).canDispenseDrugNow(pawn.Map, drug))
                     {
-                        return new Job(GetDrug, disp, drug);
+                        return new Job(GetDrug, dispensary, drug);
                     }
                 }
             }
             return null;
         }
 
-        private bool findDispensary(Thing thing, ThingDef drug, Pawn pawn)
+        private static bool isDispensaryValid(Thing thing, ThingDef drug, Pawn pawn)
         {
-            if (thing.GetType() == typeof(Building_Dispensary))
-            {
-                return (thing.def == this.DispensaryDef) & pawn.CanReserve(new LocalTargetInfo(thing), 1) && ((Building_Dispensary)thing).isDrugAvailable(pawn.Map, drug);
-            }
-            return false;
+            Building_Dispensary dispensary = thing as Building_Dispensary;
+            if (dispensary == null) return false;
+
+            return pawn.CanReserve(new LocalTargetInfo(thing)) && dispensary.isDrugAvailable(pawn.Map, drug);
         }
 
-        private Thing findDrugToDispense(Thing disp, ThingDef drugDef, Pawn pawn)
+        private static Thing findDrugToDispense(Thing disp, ThingDef drugDef, Pawn pawn)
         {
             if (disp.GetType() == typeof(Building_Dispensary))
             {
