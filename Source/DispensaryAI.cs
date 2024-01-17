@@ -32,37 +32,56 @@ namespace DispensaryMod
 
         protected override Job TryGiveJob(Pawn pawn)
         {
+            if (pawn == null) return null;
+            if (pawn.drugs.CurrentPolicy == null) return null;
+
             DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
             int num = currentPolicy.Count - 1;
+            Job job = null;
+
             for (int i = 0; i <= num; i++)
             {
                 ThingDef drugDef = currentPolicy[i].drug;
-                if (pawn.drugs.AllowedToTakeScheduledNow(drugDef))
+                if(this.TryGiveJob_GetSpecificDrug(pawn, drugDef, ref job))
                 {
-                    Predicate<Thing> disp_validator = delegate (Thing x) { return isDispensaryValid(x,drugDef,pawn); };
-
-                    //Try and find the closest dispensary with the requested drug, return if none found
-                    Thing dispensary = GenClosest.ClosestThingReachable(
-                        pawn.Position,
-                        pawn.Map,
-                        ThingRequest.ForDef(DispensaryDef),
-                        PathEndMode.InteractionCell,
-                        TraverseParms.For(pawn),
-                        validator: disp_validator
-                        );      
-                    if (dispensary == null) return null;
-
-                    //Try and find drug in the specified dispensary, return if none found
-                    Thing drug = findDrugToDispense(dispensary, drugDef, pawn);
-                    if(drug == null) return null;
-
-                    if (((Building_Dispensary) dispensary).canDispenseDrugNow(pawn.Map, drug))
-                    {
-                        return new Job(GetDrug, dispensary, drug);
-                    }
+                    return job;
                 }
             }
             return null;
+        }
+
+        private bool TryGiveJob_GetSpecificDrug(Pawn pawn, ThingDef drugDef, ref Job job)
+        {
+            // Null check
+            if (pawn == null || drugDef == null) { return false; }
+
+            // don't return if not allowed to take drug
+            if (!pawn.drugs.AllowedToTakeScheduledNow(drugDef)) return false;
+
+            Predicate<Thing> disp_validator = delegate (Thing x) { return isDispensaryValid(x, drugDef, pawn); };
+
+            //Try and find the closest dispensary with the requested drug, return if none found
+            Thing dispensary = GenClosest.ClosestThingReachable(
+                pawn.Position,
+                pawn.Map,
+                ThingRequest.ForDef(DispensaryDef),
+                PathEndMode.InteractionCell,
+                TraverseParms.For(pawn),
+                validator: disp_validator
+                );
+            if (dispensary == null) return false;
+
+            //Try and find drug in the specified dispensary, return if none found
+            Thing drug = findDrugToDispense(dispensary, drugDef, pawn);
+            if (drug == null) return false;
+
+            if (((Building_Dispensary)dispensary).canDispenseDrugNow(pawn.Map, drug))
+            {
+                job = new Job(GetDrug, dispensary, drug);
+                return true;
+            }
+
+            return false;
         }
 
         private static bool isDispensaryValid(Thing thing, ThingDef drug, Pawn pawn)

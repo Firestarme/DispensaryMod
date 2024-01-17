@@ -7,7 +7,7 @@
   <supportedVersions>
     <li>1.4</li>
   </supportedVersions>
-  <description>1.4.1.2 [31-10-23]
+  <description>1.4.1.4 [17-1-24]
 
 Want to lift the mood of your colonists with a few smokeleaf joints? 
 Want to make your pawns wedding just that little bit wilder with a stock of yayo?
@@ -30,6 +30,10 @@ Unlocked with the reasearch 'Autodoors'
 [Changelog]
 
 ######################
+
+1.4.1.4 [17-1-24]
+----------------------
+Added additional null checks when assigning a 'get drug from dispensary' job
 
 1.4.1.2 [31-10-23]  
 ----------------------
