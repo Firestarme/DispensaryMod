@@ -16,7 +16,7 @@ namespace DispensaryMod
 
         public bool Allows(DrugPolicy policy)
         {
-            return allowedPolicyUId.Contains(policy.uniqueId);
+            return allowedPolicyUId.Contains(policy.id);
         }
 
 
@@ -31,11 +31,11 @@ namespace DispensaryMod
             {
                 if (allow)
                 {
-                    allowedPolicyUId.Add(policy.uniqueId);
+                    allowedPolicyUId.Add(policy.id);
                 }
                 else
                 {
-                    allowedPolicyUId.Remove(policy.uniqueId);
+                    allowedPolicyUId.Remove(policy.id);
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace DispensaryMod
 
             foreach(DrugPolicy policy in GetAllPolicies())
             {
-                allowedPolicyUId.Add(policy.uniqueId);
+                allowedPolicyUId.Add(policy.id);
             }
         }
 
@@ -69,7 +69,7 @@ namespace DispensaryMod
 
         public void VerifyPolicies()
         {
-            HashSet<int> AllPolicyIds = new HashSet<int>(GetAllPolicies().Select<DrugPolicy,int>((DrugPolicy x)=>x.uniqueId));
+            HashSet<int> AllPolicyIds = new HashSet<int>(GetAllPolicies().Select<DrugPolicy,int>((DrugPolicy x)=>x.id));
 
             foreach(int id in allowedPolicyUId)
             {
