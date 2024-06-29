@@ -5,9 +5,10 @@
   <author>Firestarme</author>
   <url>https://github.com/Firestarme/DispensaryMod</url>
   <supportedVersions>
+    <li>1.5</li>
     <li>1.4</li>
   </supportedVersions>
-  <description>1.4.1.4 [17-1-24]
+  <description>1.5.1.0 [29-06-2024]
 
 Want to lift the mood of your colonists with a few smokeleaf joints? 
 Want to make your pawns wedding just that little bit wilder with a stock of yayo?
@@ -31,7 +32,15 @@ Unlocked with the reasearch 'Autodoors'
 
 ######################
 
-1.4.1.4 [17-1-24]
+1.5.1.0 [29-06-2024]
+----------------------
+Updated to rimworld 1.5
+Drugroom door now blocks non-colonists
+Drugroom door now only clears a pawns reachability cache when its settings/state is changed
+  This should preserve pawn caches much more often, improving performance
+  This also helps to avoid pawns thinking they are still blocked when the settings have been changed
+
+1.4.1.4 [17-1-24]  -1.4 Latest Supported version
 ----------------------
 Added additional null checks when assigning a 'get drug from dispensary' job
 
