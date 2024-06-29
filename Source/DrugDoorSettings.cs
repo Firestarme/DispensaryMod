@@ -11,26 +11,27 @@ namespace DispensaryMod
 {
     internal class DrugDoorSettings : IExposable
     {
-        public DrugPolicyFilter filter;
+        private DrugPolicyFilter _filter;
+        public DrugPolicyFilter Filter => _filter;
 
         public DrugDoorSettings()
         {
-            filter = new DrugPolicyFilter();
+            _filter = new DrugPolicyFilter();
         }
 
         public void ExposeData()
         {
-            Scribe_Deep.Look(ref filter, "filter",new object[0]);
+            Scribe_Deep.Look(ref _filter, "filter",new object[0]);
         }
 
         public void CopyFrom(DrugDoorSettings other)
         {
-            filter.CopyAllowancesFrom(other.filter);
+            _filter.CopyAllowancesFrom(other._filter);
         }
 
         public bool PolicyAllowed(DrugPolicy policy)
         {
-            return filter.Allows(policy);
+            return _filter.Allows(policy);
         }
     }
 }

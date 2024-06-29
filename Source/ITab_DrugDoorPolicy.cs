@@ -80,7 +80,7 @@ namespace DispensaryMod
 
             Rect rect3 = new Rect(0f, TopAreaHeight, rect.width, rect.height - TopAreaHeight);
            
-            DoDrugPolicyFilterConfigWindow(rect3, settings.filter);
+            DoDrugPolicyFilterConfigWindow(rect3, settings.Filter);
 
             Widgets.EndGroup();
         }
