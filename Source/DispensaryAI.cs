@@ -33,6 +33,7 @@ namespace DispensaryMod
         protected override Job TryGiveJob(Pawn pawn)
         {
             if (pawn == null) return null;
+            if (pawn.drugs == null) return null;  
             if (pawn.drugs.CurrentPolicy == null) return null;
 
             DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
@@ -42,6 +43,8 @@ namespace DispensaryMod
             for (int i = 0; i <= num; i++)
             {
                 ThingDef drugDef = currentPolicy[i].drug;
+                if (drugDef == null) continue;
+
                 if(this.TryGiveJob_GetSpecificDrug(pawn, drugDef, ref job))
                 {
                     return job;
